@@ -1,0 +1,439 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Audio and Visio Labdroid — Frontend MVP</title>
+    <link rel="stylesheet" href="./src/styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div>
+        <h1>Audio and Visio Labdroid</h1>
+        <p class="sub">
+          Frontend MVP · Jobs, Provider, Dashboard, Audio/Video Controls
+        </p>
+      </div>
+      <div id="backendStatus" class="pill offline">Backend: offline</div>
+    </header>
+
+    <main class="layout">
+      <section class="panel">
+        <div class="panel-header" data-collapsible>
+          <span
+            >1) Job & Provider
+            <button
+              type="button"
+              class="help-btn"
+              data-help="Hier legst du Domain, Device-ID und LLM-Provider fest. Tipp: Nutze 'Lokal setup laden' für Ollama oder 'Online setup laden' für OpenRouter."
+              aria-label="Hilfe zu Job und Provider"
+            >
+              ?
+            </button></span
+          >
+          <span class="chevron">▾</span>
+        </div>
+        <div class="panel-body">
+          <div class="actions">
+            <button
+              id="localSetupBtn"
+              type="button"
+              title="Setzt Provider auf ollama und Modell auf gemma4:e4b (lokaler Betrieb)."
+            >
+              Lokal setup laden
+            </button>
+            <button
+              id="onlineSetupBtn"
+              type="button"
+              title="Setzt Provider auf openrouter (Online/API Betrieb). OPENROUTER_API_KEY muss im Backend gesetzt sein."
+            >
+              Online setup laden
+            </button>
+          </div>
+          <small id="setupHint" class="setup-hint"
+            >Tipp: Ohne laufendes Modell werden nur deterministische Checks
+            erzeugt.
+          </small>
+
+          <div class="grid2">
+            <label>
+              Domain
+              <select id="domainSelect">
+                <option value="default">default</option>
+                <option value="pcb">pcb</option>
+                <option value="motor">motor</option>
+                <option value="wafer">wafer</option>
+              </select>
+            </label>
+
+            <label>
+              Device ID
+              <input id="deviceInput" type="text" placeholder="lab-cam-01" />
+            </label>
+          </div>
+
+          <label>
+            Prompt / Auftrag
+            <textarea
+              id="textInput"
+              rows="3"
+              placeholder="z. B. PCB auf fehlende SMD-Bauteile prüfen"
+            ></textarea>
+          </label>
+
+          <div class="grid2">
+            <label>
+              Provider
+              <select id="providerSelect">
+                <option value="litert">litert</option>
+                <option value="ollama">ollama</option>
+                <option value="openrouter">openrouter</option>
+              </select>
+            </label>
+
+            <label>
+              Modell (optional)
+              <input
+                id="modelInput"
+                type="text"
+                placeholder="z. B. llama3.1:8b"
+              />
+            </label>
+          </div>
+
+          <div class="actions">
+            <button id="setProviderBtn">Provider setzen</button>
+            <button id="runJobBtn" class="primary">Job starten</button>
+          </div>
+
+          <h3>Live Job-Result</h3>
+          <pre id="jobResult" class="code"></pre>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="panel-header" data-collapsible>
+          <span
+            >2) Kamera, ROI & Video-Filter
+            <button
+              type="button"
+              class="help-btn"
+              data-help="Kamera starten/stoppen, Bildparameter einstellen und mit den Preset-Buttons speichern/laden. Klick lädt, Doppelklick speichert aktuell eingestellte Werte."
+              aria-label="Hilfe zu Kamera-Panel"
+            >
+              ?
+            </button></span
+          >
+          <span class="chevron">▾</span>
+        </div>
+        <div class="panel-body">
+          <div class="actions">
+            <button id="loadCameraDevicesBtn">Kamera-Geräte laden</button>
+            <button id="cameraBtn">Kamera starten</button>
+            <button id="captureBtn">Frame übernehmen</button>
+          </div>
+
+          <div id="cameraDeviceList" class="deviceList"></div>
+
+          <div class="videoWrap">
+            <video id="video" autoplay muted playsinline></video>
+            <canvas id="roiCanvas"></canvas>
+          </div>
+
+          <div class="grid3">
+            <label
+              >Brightness
+              <input id="brightness" type="range" min="0" max="200" value="100"
+            /></label>
+            <label
+              >Contrast
+              <input id="contrast" type="range" min="0" max="200" value="100"
+            /></label>
+            <label
+              >Saturation
+              <input id="saturation" type="range" min="0" max="200" value="100"
+            /></label>
+          </div>
+
+          <div class="macro-row" id="cameraPresetRow">
+            <button
+              type="button"
+              class="macro-btn"
+              data-cam-preset="1"
+              title="Klick: Preset 1 laden. Doppelklick: aktuelle Kamera-Filter in Preset 1 speichern."
+            >
+              P1
+            </button>
+            <button
+              type="button"
+              class="macro-btn"
+              data-cam-preset="2"
+              title="Klick: Preset 2 laden. Doppelklick: aktuelle Kamera-Filter in Preset 2 speichern."
+            >
+              P2
+            </button>
+            <button
+              type="button"
+              class="macro-btn"
+              data-cam-preset="3"
+              title="Klick: Preset 3 laden. Doppelklick: aktuelle Kamera-Filter in Preset 3 speichern."
+            >
+              P3
+            </button>
+            <button
+              type="button"
+              class="macro-btn"
+              data-cam-preset="4"
+              title="Klick: Preset 4 laden. Doppelklick: aktuelle Kamera-Filter in Preset 4 speichern."
+            >
+              P4
+            </button>
+            <button
+              type="button"
+              class="macro-btn"
+              data-cam-preset="5"
+              title="Klick: Preset 5 laden. Doppelklick: aktuelle Kamera-Filter in Preset 5 speichern."
+            >
+              P5
+            </button>
+          </div>
+
+          <small
+            >ROI mit Maus im Video ziehen. Analyse nutzt das gecapturete
+            ROI-Bild.</small
+          >
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="panel-header" data-collapsible>
+          <span
+            >3) Audio-Chain (Web Audio API)
+            <button
+              type="button"
+              class="help-btn"
+              data-help="Mikrofon kann mit demselben Button gestartet und gestoppt werden. Audio-Monitor zeigt Spektrum/Wasserfall/Phase des Live-Signals."
+              aria-label="Hilfe zu Audio-Panel"
+            >
+              ?
+            </button></span
+          >
+          <span class="chevron">▾</span>
+        </div>
+        <div class="panel-body">
+          <div class="actions">
+            <button id="loadMicDevicesBtn">Mikrofon-Geräte laden</button>
+            <button id="audioBtn">Mikrofon starten</button>
+            <button id="recordBtn">5s Audio aufnehmen</button>
+          </div>
+
+          <div id="micDeviceList" class="deviceList"></div>
+
+          <div class="grid2">
+            <label>
+              Audio-Monitor Modus
+              <select id="audioViewMode">
+                <option value="spectrum">Spektrum</option>
+                <option value="waterfall">Wasserfall</option>
+                <option value="phase">Phase</option>
+              </select>
+            </label>
+            <label>
+              Audio Level (RMS)
+              <input id="audioLevel" type="text" readonly value="0.000" />
+            </label>
+          </div>
+
+          <canvas id="audioMonitorCanvas" width="720" height="260"></canvas>
+
+          <div class="grid2">
+            <label
+              >Gain
+              <input
+                id="gain"
+                type="range"
+                min="0"
+                max="3"
+                step="0.01"
+                value="1"
+            /></label>
+            <label
+              >Compressor Threshold
+              <input
+                id="threshold"
+                type="range"
+                min="-100"
+                max="0"
+                step="1"
+                value="-24"
+            /></label>
+          </div>
+
+          <div class="grid3">
+            <label
+              >Low EQ
+              <input
+                id="eqLow"
+                type="range"
+                min="0"
+                max="2"
+                step="0.01"
+                value="1"
+            /></label>
+            <label
+              >Mid EQ
+              <input
+                id="eqMid"
+                type="range"
+                min="0"
+                max="2"
+                step="0.01"
+                value="1"
+            /></label>
+            <label
+              >High EQ
+              <input
+                id="eqHigh"
+                type="range"
+                min="0"
+                max="2"
+                step="0.01"
+                value="1"
+            /></label>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel panel-collapsed wide">
+        <div class="panel-header" data-collapsible>
+          <span>4) Statistics Dashboard</span>
+          <span class="chevron">▸</span>
+        </div>
+        <div class="panel-body">
+          <div class="grid4">
+            <label>
+              Metric
+              <select id="metricSelect">
+                <option value="brightness_mean">brightness_mean</option>
+                <option value="edge_density">edge_density</option>
+                <option value="audio_rms">audio_rms</option>
+              </select>
+            </label>
+            <label>
+              Filter Domain
+              <input id="filterDomain" type="text" placeholder="pcb" />
+            </label>
+            <label>
+              Filter Device
+              <input id="filterDevice" type="text" placeholder="lab-cam-01" />
+            </label>
+            <label>
+              Bins
+              <input id="binsInput" type="number" min="3" max="50" value="10" />
+            </label>
+          </div>
+
+          <div class="actions">
+            <button id="refreshStatsBtn" class="primary">
+              Dashboard aktualisieren
+            </button>
+          </div>
+
+          <div class="statsGrid">
+            <div>
+              <h3>Summary</h3>
+              <pre id="summaryView" class="code"></pre>
+            </div>
+            <div>
+              <h3>Histogramm</h3>
+              <canvas id="histogramCanvas" width="520" height="220"></canvas>
+              <pre id="histogramView" class="code"></pre>
+            </div>
+            <div>
+              <h3>Timeseries</h3>
+              <canvas id="timeseriesCanvas" width="520" height="220"></canvas>
+              <pre id="timeseriesView" class="code"></pre>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel panel-collapsed wide">
+        <div class="panel-header" data-collapsible>
+          <span>5) Control: Baseline · Plugins · Actuators</span>
+          <span class="chevron">▸</span>
+        </div>
+        <div class="panel-body">
+          <div class="grid4">
+            <label>
+              Baseline Domain
+              <input id="baselineDomain" type="text" placeholder="pcb" />
+            </label>
+            <label>
+              Baseline Device
+              <input id="baselineDevice" type="text" placeholder="lab-cam-01" />
+            </label>
+            <label>
+              Actuator Type
+              <select id="actuatorType">
+                <option value="http">http</option>
+                <option value="mqtt">mqtt</option>
+              </select>
+            </label>
+            <label>
+              Actuator Target
+              <input
+                id="actuatorTarget"
+                type="text"
+                placeholder="http://localhost:9000/actuate oder machine/motor/start"
+              />
+            </label>
+          </div>
+
+          <label>
+            Actuator Payload (JSON)
+            <textarea
+              id="actuatorPayload"
+              rows="3"
+              placeholder='{"command":"start","value":1}'
+            ></textarea>
+          </label>
+
+          <div class="actions">
+            <button id="baselineGetBtn">Baseline laden</button>
+            <button id="baselineResetBtn">Baseline reset</button>
+            <button id="pluginsReloadBtn">Plugins reload</button>
+            <button id="pluginsRunBtn">Plugins run</button>
+            <button id="actuatorFireBtn" class="primary">
+              Actuator fire (safe)
+            </button>
+            <button id="auditLoadBtn">Audit laden</button>
+          </div>
+
+          <div class="statsGrid">
+            <div>
+              <h3>Baseline</h3>
+              <pre id="baselineView" class="code"></pre>
+            </div>
+            <div>
+              <h3>Plugins</h3>
+              <pre id="pluginsView" class="code"></pre>
+            </div>
+            <div>
+              <h3>Actuator / Audit</h3>
+              <pre id="actuatorView" class="code"></pre>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <span>Backend Base URL:</span>
+      <input id="backendBase" type="text" value="http://localhost:8000" />
+      <button id="pingBtn">Ping /health</button>
+    </footer>
+
+    <script type="module" src="./src/app.js"></script>
+  </body>
+</html>
