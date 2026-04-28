@@ -1,4 +1,4 @@
-# Audio and Visio Labdroid — Umsetzungsplan (Codex)
+# Audio and Visio Labdroid
 
 ## 1) Zielbild
 
