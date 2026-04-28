@@ -1,0 +1,53 @@
+{
+  "job_id": "pcb-81697.584187",
+  "timestamp": "2026-04-17T18:43:40.155489+00:00",
+  "domain": "pcb",
+  "device_id": null,
+  "provider": "litert",
+  "model": "litert-local-default",
+  "result": "OK",
+  "confidence": 1.0,
+  "metrics": {
+    "brightness_mean": 0.0,
+    "edge_density": 0.0,
+    "audio_rms": 0.0
+  },
+  "checks": [
+    {
+      "name": "Image brightness range",
+      "metric": "brightness_mean",
+      "status": "pass",
+      "critical": false,
+      "actual": 0.0,
+      "threshold_min": null,
+      "threshold_max": null,
+      "reason": "no image provided; check skipped"
+    },
+    {
+      "name": "Image edge density",
+      "metric": "edge_density",
+      "status": "pass",
+      "critical": false,
+      "actual": 0.0,
+      "threshold_min": null,
+      "threshold_max": null,
+      "reason": "no image provided; check skipped"
+    },
+    {
+      "name": "Audio RMS range",
+      "metric": "audio_rms",
+      "status": "pass",
+      "critical": false,
+      "actual": 0.0,
+      "threshold_min": null,
+      "threshold_max": null,
+      "reason": "no audio provided; check skipped"
+    }
+  ],
+  "evidence_refs": {
+    "images": [],
+    "audio": []
+  },
+  "explanation": "[LiteRT:litert-local-default] Create a concise inspection summary for domain 'pcb'. Result: OK. Failing checks: No failing checks. Metrics: {'brightness_mean': 0.0, 'edge_density': 0.0, 'audio_rms': 0.0}. Keep it factual and short.",
+  "metadata": {}
+}
