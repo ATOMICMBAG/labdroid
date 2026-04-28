@@ -1,0 +1,94 @@
+{
+  "job_id": "pcb-686861.700852",
+  "timestamp": "2026-04-24T18:49:36.508351+00:00",
+  "domain": "pcb",
+  "device_id": null,
+  "provider": "ollama",
+  "model": "qwen3.5:9b",
+  "result": "OK",
+  "confidence": 1.0,
+  "metrics": {
+    "brightness_mean": 0.0,
+    "edge_density": 0.0,
+    "audio_rms": 0.0
+  },
+  "checks": [
+    {
+      "name": "Image brightness range",
+      "metric": "brightness_mean",
+      "status": "pass",
+      "critical": false,
+      "actual": 0.0,
+      "threshold_min": null,
+      "threshold_max": null,
+      "reason": "no image provided; check skipped"
+    },
+    {
+      "name": "Image edge density",
+      "metric": "edge_density",
+      "status": "pass",
+      "critical": false,
+      "actual": 0.0,
+      "threshold_min": null,
+      "threshold_max": null,
+      "reason": "no image provided; check skipped"
+    },
+    {
+      "name": "Audio RMS range",
+      "metric": "audio_rms",
+      "status": "pass",
+      "critical": false,
+      "actual": 0.0,
+      "threshold_min": null,
+      "threshold_max": null,
+      "reason": "no audio provided; check skipped"
+    }
+  ],
+  "evidence_refs": {
+    "images": [],
+    "audio": []
+  },
+  "anomalies": {
+    "brightness_mean": {
+      "enough_data": false,
+      "is_anomaly": false,
+      "actual": 0.0,
+      "mean": 0.0,
+      "std": 0.0,
+      "z_score": 0.0
+    },
+    "edge_density": {
+      "enough_data": false,
+      "is_anomaly": false,
+      "actual": 0.0,
+      "mean": 0.0,
+      "std": 0.0,
+      "z_score": 0.0
+    },
+    "audio_rms": {
+      "enough_data": false,
+      "is_anomaly": false,
+      "actual": 0.0,
+      "mean": 0.0,
+      "std": 0.0,
+      "z_score": 0.0
+    }
+  },
+  "plugin_results": [],
+  "timings": {
+    "preprocess_s": 0.0,
+    "feature_extraction_s": 0.0,
+    "rule_engine_s": 0.0001,
+    "baseline_update_s": 0.002,
+    "anomaly_detection_s": 0.011,
+    "plugins_s": 0.0,
+    "decision_s": 0.0,
+    "prompt_build_s": 0.0,
+    "provider_generate_s": 0.0011,
+    "total_s": 0.0143
+  },
+  "explanation": "[Ollama fallback:qwen3.5:9b] Create a concise inspection summary for domain 'pcb'. Result: OK. Failing checks: No failing checks. Metrics: {'brightness_mean': 0.0, 'edge_density': 0.0, 'audio_rms': 0.0}. Keep it factual and short.",
+  "metadata": {
+    "frontend": "labdroid-frontend-mvp"
+  }
+}

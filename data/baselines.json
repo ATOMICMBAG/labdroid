@@ -1,0 +1,43 @@
+{
+  "series": {
+    "default::any": {
+      "domain": "default",
+      "device_id": null,
+      "values": {
+        "brightness_mean": [
+          0.0,
+          0.0
+        ],
+        "edge_density": [
+          0.0,
+          0.0
+        ],
+        "audio_rms": [
+          0.0,
+          0.0
+        ]
+      }
+    },
+    "pcb::any": {
+      "domain": "pcb",
+      "device_id": null,
+      "values": {
+        "brightness_mean": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "edge_density": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "audio_rms": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      }
+    }
+  }
+}
