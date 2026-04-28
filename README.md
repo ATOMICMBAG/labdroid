@@ -1,9 +1,6 @@
 # Audio and Visio Labdroid
 
 ## 1) Zielbild
-
-Aus der verfeinerten Anweisung ergibt sich ein **produktnahes, lokales multimodales Inspektionssystem** mit klarer Trennung zwischen:
-
 - Echtzeit-Ingestion (Audio + Bild)
 - deterministischer Inspektionslogik (regelbasiert)
 - LLM nur für Erklärung/Bedienung (nicht für Entscheidungen)
@@ -11,8 +8,7 @@ Aus der verfeinerten Anweisung ergibt sich ein **produktnahes, lokales multimoda
 
 ---
 
-## 2) Leitprinzipien (aus der Anweisung abgeleitet)
-
+## 2) Leitprinzipien
 1. **Entscheidungen deterministisch** (Rule Engine, Metriken, Schwellen)
 2. **LLM als Sprach-/Erklärschicht** (keine Entscheidungsautorität)
 3. **Provider-unabhängig** (LiteRT, Ollama, OpenRouter dynamisch umschaltbar)
@@ -21,7 +17,7 @@ Aus der verfeinerten Anweisung ergibt sich ein **produktnahes, lokales multimoda
 
 ---
 
-## 3) Ziel-Architektur (High-Level)
+## 3) Ziel-Architektur
 
 ```text
 Frontend SPA
@@ -43,7 +39,7 @@ FastAPI Backend
 
 ---
 
-## 4) Empfohlene Projektstruktur
+## 4) Projektstruktur
 
 ```text
 labdroid/
@@ -190,7 +186,7 @@ Artefakte pro Job:
 
 ---
 
-## 7) Sicherheit & Stabilität (Pflicht)
+## 7) Sicherheit & Stabilität
 
 ## 7.1 Security
 
@@ -250,7 +246,7 @@ class InspectionPlugin:
 
 ---
 
-## 10) Implementierungsreihenfolge (konkret)
+## 10) Implementierung
 
 ## Phase A — Minimal Working Prototype
 
